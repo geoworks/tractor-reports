@@ -11,9 +11,9 @@ RUN apk add bash
 WORKDIR $DIR
 RUN npm install
 
-ENV DEBUG deck*
-ENV db_options_host 172.24.10.12
+ENV DEBUG tr*
+ENV PORT 3001
 
 ENV DANGEROUSLY_DISABLE_HOST_CHECK true
 
-CMD ["npm start"]
+CMD ["npm run start"]
