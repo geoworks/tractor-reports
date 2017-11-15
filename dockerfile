@@ -16,4 +16,4 @@ ENV PORT 3001
 
 ENV DANGEROUSLY_DISABLE_HOST_CHECK true
 
-CMD ["npm run start"]
+CMD ["npm","run","start"]
