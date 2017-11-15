@@ -1,10 +1,11 @@
 {
   "name": "tractor-reports",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "node index",
+    "build": "docker build -f ./dockerfile --cache-from geoworks/tractor-reports -t geoworks/tractor-reports ."
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,7 @@
+{
+  "imapHost": "imap.mail.ru",
+  "imapPort": "993",
+  "imapEmail": "***@mail.ru",
+  "imapPassword": "***",
+  "imapTlsEnabled": "true"
+}
