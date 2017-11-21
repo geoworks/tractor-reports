@@ -121,7 +121,13 @@ function processAttachment(attachment) {
 };
 
 function truckNameFromAttachmentName(name) {
-  return name.slice(0,2) + name.slice(3,5);
+  const rx = new RegExp(/\d\d_\d\d/, 'g');
+  console.log(name.match(rx));
+  const result = name.match(rx)[0];
+  if (result.length) {
+    return result[0].slice(0,2) + result[0].slice(3,5);
+  }
+  return `нет данных (${(Math.random() * 1000).toFixed(0)})`;
 }
 
 function storeProcessedMailIds(ids) {
