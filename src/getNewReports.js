@@ -125,7 +125,7 @@ function truckNameFromAttachmentName(name) {
   console.log(name.match(rx));
   const result = name.match(rx)[0];
   if (result.length) {
-    return result[0].slice(0,2) + result[0].slice(3,5);
+    return result.slice(0,2) + result.slice(3,5);
   }
   return `нет данных (${(Math.random() * 1000).toFixed(0)})`;
 }
