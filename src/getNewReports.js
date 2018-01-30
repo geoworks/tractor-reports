@@ -75,7 +75,7 @@ export default async function getNewReports(mailIdsToSkip) {
       }));
     });
 
-    return Promise.all(attachments);
+    return Promise.all(attachments); // .slice(0, 10)
   }).then(attachments => {
     debug('got %s attachments. processing..', attachments.length);
     return Promise.all(attachments.map(att => processAttachment(att)));
@@ -101,14 +101,14 @@ function processAttachment(attachment) {
     debug('writing file %s for %s', newfileName, attachment.filename);
     fs.writeFile(path.resolve(FILES_PATH, newfileName), attachment.data, (err) => {
       if (err) { return reject(err); }
-      const truckName = truckNameFromAttachmentName(attachment.filename);
+      const {truckName, originalName} = truckNameFromAttachmentName(attachment.filename);
       debug('stroring report data for %s', truckName);
       db.reports.update(
         { truckName },
         {
           truckName,
           fileName: newfileName,
-          originalName: attachment.filename,
+          originalName,
         },
         { upsert: true },
         (err) => {
@@ -121,11 +121,19 @@ function processAttachment(attachment) {
 };
 
 function truckNameFromAttachmentName(name) {
-  const rx = new RegExp(/\d\d_\d\d/, 'g');
-  console.log(name.match(rx));
-  const result = name.match(rx)[0];
-  if (result.length) {
-    return result.slice(0,2) + result.slice(3,5);
+  if (name.match(/UTF-8/)) {
+    let gosNumber = name.match(/\d\d.\d\d/);
+    if (gosNumber && gosNumber.length) {
+      const truckName = gosNumber[0].slice(0,2) + gosNumber[0].slice(3,5);
+      return {truckName, originalName: gosNumber[0]};
+    }
+  } else {
+    const rx = new RegExp(/\d\d_\d\d/, 'g');
+    console.log(name.match(rx));
+    const result = name.match(rx)[0];
+    if (result.length) {
+      return {truckName: result.slice(0,2) + result.slice(3,5), originalName: name};
+    }
   }
   return `нет данных (${(Math.random() * 1000).toFixed(0)})`;
 }

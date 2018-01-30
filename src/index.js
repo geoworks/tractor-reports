@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve('src/index.html'));
 });
 
-app.post('/reports/reload', (req, res) => {
+app.get('/reports/reload', (req, res) => {
   updateReports().then(numUpdated => {
     res.json({ numUpdated });
   }).catch(err => {
